@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon ./src/main.ts",
-    "build": "rimraf build/ && tsc",
+    "build": "tsc",
     "migrate": "pnpm sequelize db:migrate",
     "createdb": "pnpm sequelize db:create"
   },
