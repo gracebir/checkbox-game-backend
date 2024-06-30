@@ -36,6 +36,7 @@ The One Million Checkboxes game is a simple web application where users interact
   
 ### Running the Application
 Start the backend server:
+
     ```bash
     pnpm run dev
 
