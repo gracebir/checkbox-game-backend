@@ -1,13 +1,5 @@
-/** @format */
-
-import {
-    Table,
-    Model,
-    Column,
-    DataType,
-    Default,
-    PrimaryKey,
-} from "sequelize-typescript";
+import { Table, Model, Column, DataType, Default, PrimaryKey, ForeignKey, BelongsTo } from "sequelize-typescript";
+import { User } from './User.model';
 
 @Table({
     tableName: "Checkboxes",
@@ -35,6 +27,16 @@ export class Checkbox extends Model {
     @Column(DataType.BOOLEAN)
     checked!: boolean;
 
+    @ForeignKey(() => User)
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: true,
+    })
+    userId!: number;
+
+    @BelongsTo(() => User)
+    user!: User;
+
     @Column({
         type: DataType.DATE,
         allowNull: false,
@@ -49,14 +51,12 @@ export class Checkbox extends Model {
     })
     declare updatedAt: Date;
 
-    static async updateCheckboxAndCount(
-        checkboxId: string,
-        checked: boolean
-    ): Promise<number> {
+    static async updateCheckboxAndCount(checkboxId: string, checked: boolean, userId: number): Promise<number> {
         const checkbox = await Checkbox.findByPk(checkboxId);
         if (checkbox) {
             if (checkbox.checked !== checked) {
                 checkbox.checked = checked;
+                checkbox.userId = userId;
                 await checkbox.save();
                 return checked ? 1 : -1; // Increment count if checked, decrement if unchecked
             }
