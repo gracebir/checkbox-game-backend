@@ -69,12 +69,20 @@ export class CheckboxService {
         const checkbox = await prisma.checkbox.findUnique({
             where: { checkboxId },
         });
-        if (checkbox && checkbox.checked !== checked) {
+
+        if (checkbox) {
+            let checkCount = checkbox.checkCount;
+            if (checkbox.checked !== checked) {
+                checkCount = checked ? checkCount + 1 : checkCount;
+            }
+
             await prisma.checkbox.update({
                 where: { checkboxId },
                 data: {
                     checked,
                     userId,
+                    checkCount,
+                    lastCheckedUser: userId,
                 },
             });
             return checked ? 1 : -1;
