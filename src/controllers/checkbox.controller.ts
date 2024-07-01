@@ -13,7 +13,7 @@ export const getAllCheckboxes = async (
         const { checkboxes, total } = await checkboxService.getAllCheckboxes(page, limit);
         res.status(200).json({ checkboxes, total, page, limit });
     } catch (error) {
-         //@ts-ignore
+        //@ts-ignore
         res.status(500).json({ error: error.message });
     }
 };
@@ -36,7 +36,7 @@ export const getCheckboxesByRange = async (
         );
         res.status(200).json({ checkboxes, total, page, limit });
     } catch (error) {
-         //@ts-ignore
+        //@ts-ignore
         res.status(500).json({ error: error.message });
     }
 };
@@ -73,7 +73,7 @@ export const updateCheckboxAndCount = async (
         );
         res.status(200).json({ updatedCount: result });
     } catch (error) {
-         //@ts-ignore
+        //@ts-ignore
         res.status(500).json({ error: error.message });
     }
 };
