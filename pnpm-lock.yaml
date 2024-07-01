@@ -8,9 +8,6 @@ dependencies:
   '@prisma/client':
     specifier: ^4.12.0
     version: 4.16.2(prisma@4.16.2)
-  '@prisma/extension-pulse':
-    specifier: ^1.1.1
-    version: 1.1.1(@prisma/client@4.16.2)
   '@types/cors':
     specifier: ^2.8.17
     version: 2.8.17
@@ -93,19 +90,6 @@ packages:
   /@prisma/engines@4.16.2:
     resolution: {integrity: sha512-vx1nxVvN4QeT/cepQce68deh/Turxy5Mr+4L4zClFuK1GlxN3+ivxfuv+ej/gvidWn1cE1uAhW7ALLNlYbRUAw==}
     requiresBuild: true
-
-  /@prisma/extension-pulse@1.1.1(@prisma/client@4.16.2):
-    resolution: {integrity: sha512-utcquzFm3yVr8yQtx1IcV6+ao7TUBFs1tsGeyQFJ1vPdvL2RpgbtuTQVwJRumG4EW+5ubab9M4dArTC1WYaD0Q==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      '@prisma/client': '>=4.16.1'
-    dependencies:
-      '@prisma/client': 4.16.2(prisma@4.16.2)
-      ws: 8.17.1
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-    dev: false
 
   /@tsconfig/node10@1.0.11:
     resolution: {integrity: sha512-DcRjDCujK/kCk/cUe8Xz8ZSpm8mS3mNNpta+jGCA6USEDfktlNvm1+IuZ9eTcDbNk41BHwpHHeW+N1lKCz4zOw==}
@@ -1070,19 +1054,6 @@ packages:
     dependencies:
       isexe: 2.0.0
     dev: true
-
-  /ws@8.17.1:
-    resolution: {integrity: sha512-6XQFvXTkbfUOZOKKILFG1PDK2NDQs4azKQl26T0YS5CxqWLgXajbPZ+h4gZekJyRqFU8pvnbAbbs/3TgRPy+GQ==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: '>=5.0.2'
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-    dev: false
 
   /yn@3.1.1:
     resolution: {integrity: sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==}
