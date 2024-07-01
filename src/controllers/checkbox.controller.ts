@@ -1,5 +1,3 @@
-/** @format */
-
 import { Request, Response } from "express";
 import { CheckboxService } from "../services/checkbox.service";
 
@@ -9,11 +7,13 @@ export const getAllCheckboxes = async (
     req: Request,
     res: Response
 ): Promise<void> => {
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
     try {
-        const checkboxes = await checkboxService.getAllCheckboxes();
-        res.status(200).json(checkboxes);
+        const { checkboxes, total } = await checkboxService.getAllCheckboxes(page, limit);
+        res.status(200).json({ checkboxes, total, page, limit });
     } catch (error) {
-        //@ts-ignore
+         //@ts-ignore
         res.status(500).json({ error: error.message });
     }
 };
@@ -23,16 +23,20 @@ export const getCheckboxesByRange = async (
     res: Response
 ): Promise<void> => {
     const { startRow, endRow, startCol, endCol } = req.params;
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
     try {
-        const checkboxes = await checkboxService.getCheckboxesByRange(
+        const { checkboxes, total } = await checkboxService.getCheckboxesByRange(
             parseInt(startRow),
             parseInt(endRow),
             parseInt(startCol),
-            parseInt(endCol)
+            parseInt(endCol),
+            page,
+            limit
         );
-        res.status(200).json(checkboxes);
+        res.status(200).json({ checkboxes, total, page, limit });
     } catch (error) {
-        //@ts-ignore
+         //@ts-ignore
         res.status(500).json({ error: error.message });
     }
 };
@@ -69,7 +73,7 @@ export const updateCheckboxAndCount = async (
         );
         res.status(200).json({ updatedCount: result });
     } catch (error) {
-        //@ts-ignore
+         //@ts-ignore
         res.status(500).json({ error: error.message });
     }
 };
