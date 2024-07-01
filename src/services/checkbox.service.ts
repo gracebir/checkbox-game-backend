@@ -1,25 +1,58 @@
-import { Checkbox } from "../db/models/CheckboxGame.model";
-import { User } from "../db/models/User.model";
+/** @format */
+
+import { PrismaClient, Checkbox } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 export class CheckboxService {
     async getAllCheckboxes(): Promise<Checkbox[]> {
-        return await Checkbox.findAll();
+        return await prisma.checkbox.findMany();
     }
 
-    async getCheckboxesByRange(startRow: number, endRow: number, startCol: number, endCol: number): Promise<Checkbox[]> {
-        return await Checkbox.findAll({
+    async getCheckboxesByRange(
+        startRow: number,
+        endRow: number,
+        startCol: number,
+        endCol: number
+    ): Promise<Checkbox[]> {
+        return await prisma.checkbox.findMany({
             where: {
-                row: { $between: [startRow, endRow] },
-                col: { $between: [startCol, endCol] },
+                row: {
+                    gte: startRow,
+                    lte: endRow,
+                },
+                col: {
+                    gte: startCol,
+                    lte: endCol,
+                },
             },
         });
     }
 
     async getCheckboxById(checkboxId: string): Promise<Checkbox | null> {
-        return await Checkbox.findByPk(checkboxId);
+        return await prisma.checkbox.findUnique({
+            where: { checkboxId },
+        });
     }
 
-    async updateCheckboxAndCount(checkboxId: string, checked: boolean, userId: number): Promise<number> {
-        return await Checkbox.updateCheckboxAndCount(checkboxId, checked, userId);
+    async updateCheckboxAndCount(
+        checkboxId: string,
+        checked: boolean,
+        userId: string
+    ): Promise<number> {
+        const checkbox = await prisma.checkbox.findUnique({
+            where: { checkboxId },
+        });
+        if (checkbox && checkbox.checked !== checked) {
+            await prisma.checkbox.update({
+                where: { checkboxId },
+                data: {
+                    checked,
+                    userId,
+                },
+            });
+            return checked ? 1 : -1;
+        }
+        return 0;
     }
 }

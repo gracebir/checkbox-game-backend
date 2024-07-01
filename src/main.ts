@@ -1,29 +1,22 @@
 /** @format */
 
+import "dotenv/config";
 import express from "express";
-import connection from "./db";
 import cors from "cors";
-import CheckBoxRoute from "./routes/checkbox.routes";
-import UserRoute from './routes/user.routes'
+import checkboxRoutes from "./routes/checkbox.routes";
+import userRoutes from "./routes/user.routes";
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+
+// Routes
+app.use("/api/v1/checkboxes", checkboxRoutes);
+app.use("/api/v1/users", userRoutes);
 
 const port = process.env.PORT || 4000;
 
-const start = async (): Promise<void> => {
-    try {
-        await connection.sync();
-        app.use("/api/v1/checkbox", CheckBoxRoute);
-        app.use("/api/v1/user", UserRoute);
-        app.listen(port, () => {
-            console.log(`http://localhost:${port}`);
-        });
-    } catch (error) {
-        console.error(error);
-        process.exit(1);
-    }
-};
-
-void start();
+app.listen(port, () => {
+    console.log("server run on port 4000...");
+});

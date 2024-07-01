@@ -1,10 +1,16 @@
 /** @format */
-import { Router } from 'express';
-import { toggle, list } from '../controllers/checkbox.controller';
 
-const router = Router();
+import express from "express";
+import * as checkboxController from "../controllers/checkbox.controller";
 
-router.put('/:checkboxId', toggle);
-router.get('/', list);
+const router = express.Router();
+
+router.get("/", checkboxController.getAllCheckboxes);
+router.get(
+    "/:startRow/:endRow/:startCol/:endCol",
+    checkboxController.getCheckboxesByRange
+);
+router.get("/:checkboxId", checkboxController.getCheckboxById);
+router.put("/:checkboxId", checkboxController.updateCheckboxAndCount);
 
 export default router;

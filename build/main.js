@@ -1,26 +1,22 @@
+"use strict";
 /** @format */
-import express from "express";
-import connection from "./db";
-import cors from "cors";
-import CheckBoxRoute from "./routes/checkbox.routes";
-import UserRoute from './routes/user.routes';
-const app = express();
-app.use(express.json());
-app.use(cors());
-const port = process.env.PORT || 4000;
-const start = async () => {
-    try {
-        await connection.sync();
-        app.use("/api/v1/checkbox", CheckBoxRoute);
-        app.use("/api/v1/user", UserRoute);
-        app.listen(port, () => {
-            console.log(`http://localhost:${port}`);
-        });
-    }
-    catch (error) {
-        console.error(error);
-        process.exit(1);
-    }
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-void start();
-//# sourceMappingURL=main.js.map
+Object.defineProperty(exports, "__esModule", { value: true });
+require("dotenv/config");
+const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
+const checkbox_routes_1 = __importDefault(require("./routes/checkbox.routes"));
+const user_routes_1 = __importDefault(require("./routes/user.routes"));
+const app = (0, express_1.default)();
+app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({ extended: true }));
+app.use((0, cors_1.default)());
+// Routes
+app.use("/api/v1/checkboxes", checkbox_routes_1.default);
+app.use("/api/v1/users", user_routes_1.default);
+const port = process.env.PORT || 4000;
+app.listen(port, () => {
+    console.log("server run on port 4000...");
+});
