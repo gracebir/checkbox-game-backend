@@ -6,7 +6,6 @@ interface CheckboxCreateInput {
     row: number;
     col: number;
     checked: boolean;
-    userId?: string | null;
     // other fields as needed
   }
 
