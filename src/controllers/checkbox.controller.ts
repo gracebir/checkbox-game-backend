@@ -64,12 +64,11 @@ export const updateCheckboxAndCount = async (
     res: Response
 ): Promise<void> => {
     const { checkboxId } = req.params;
-    const { checked, userId } = req.body;
+    const { checked } = req.body;
     try {
         const result = await checkboxService.updateCheckboxAndCount(
             checkboxId,
             checked,
-            userId
         );
         res.status(200).json({ updatedCount: result });
     } catch (error) {
