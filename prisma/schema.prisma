@@ -13,20 +13,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  userId     String     @id @default(uuid())
-  name       String
-  email      String     @unique
-  checkboxes Checkbox[]
-}
 
 model Checkbox {
   checkboxId      String   @id @default(uuid())
   row             Int
   col             Int
   checked         Boolean  @default(false)
-  userId          String?
-  user            User?    @relation(fields: [userId], references: [userId])
   checkCount      Int      @default(0) // New field to track the number of times a checkbox is checked
-  lastCheckedUser String?  // New field to track the last user who checked the checkbox
 }
