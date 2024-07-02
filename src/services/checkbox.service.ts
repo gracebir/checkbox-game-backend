@@ -64,17 +64,23 @@ export class CheckboxService {
     async updateCheckboxAndCount(
         checkboxId: string,
         checked: boolean,
-        userId: string
     ): Promise<number> {
         const checkbox = await prisma.checkbox.findUnique({
             where: { checkboxId },
         });
-        if (checkbox && checkbox.checked !== checked) {
+
+        if (checkbox) {
+            let checkCount = checkbox.checkCount;
+            if (checkbox.checked !== checked) {
+                checkCount = checked ? checkCount + 1 : checkCount;
+            }
+
             await prisma.checkbox.update({
                 where: { checkboxId },
                 data: {
                     checked,
-                    userId,
+                    checkCount,
+                    
                 },
             });
             return checked ? 1 : -1;
